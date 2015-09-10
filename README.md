@@ -1,7 +1,7 @@
 # Assemblage
 A lightweight entity management framework in pure C#, suitable for game development in MonoGame and XNA. 
 
-# 30 Second Demo 
+## 30 Second Demo 
 ```
 // All entities must inherit IEntity
 
