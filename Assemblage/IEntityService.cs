@@ -3,8 +3,10 @@ namespace Assemblage
 {
     public interface IEntityService
     {
-        void Create(IEntity entity);
+        T Create<T>(T entity) where T : IEntity;
 
-        void Destroy(IEntity entity);
+        T Destroy<T>(T entity) where T : IEntity;
+
+        void Destroy();
     }
 }

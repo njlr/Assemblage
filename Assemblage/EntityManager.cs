@@ -25,35 +25,47 @@ namespace Assemblage
             }
         }
 
-        public void Create(IEntity entity)
+        public T Create<T>(T entity) where T : IEntity
         {
-            if (entityWrappers.Any(x => x.Entity == entity))
+            if (entityWrappers.Any(x => x.Equals(entity)))
             {
                 throw new InvalidOperationException("The entity has already been registered. ");
             }
 
             var wrapper = new EntityWrapper(entity);
 
+            entityWrappers.Add(wrapper);
+
             wrapper.Initialize();
 
-            entityWrappers.Add(wrapper);
+            return entity;
         }
 
-        public void Destroy(IEntity entity)
+        public T Destroy<T>(T entity) where T : IEntity
         {
             foreach (var i in entityWrappers)
             {
-                if (i.Entity == entity)
+                if (i.Entity.Equals(entity))
                 { 
                     entityWrappers.Remove(i);
 
                     i.Destroy();
 
-                    return;
+                    return entity;
                 }
             }
 
-            //throw new InvalidOperationException("The entity has not been registered. ");
+            throw new InvalidOperationException("The entity has not been registered. ");
+        }
+
+        public void Destroy()
+        {
+            foreach (var i in entityWrappers)
+            {
+                i.Destroy();
+            }
+
+            entityWrappers.Clear();
         }
 
         public void Dispose()
